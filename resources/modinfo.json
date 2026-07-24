@@ -1,0 +1,11 @@
+{
+    "HarmonyId": "Silph5.chatbackgrounds",
+    "DisplayName": "ChatBackgrounds",
+    "Authors": [
+      "Silph5"
+    ],
+    "Description": "Import images to personalise your chatbox with a background! This mod inserts an image of your choice into the chat panel, supporting PUT SUPPORTED FILES HERE",
+    "Version": "1.0.0",
+    "RequiredMods": [],
+    "Settings": {}
+}
