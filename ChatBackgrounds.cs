@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using Server.Shared.Extensions;
 using Game.Interface;
 
-
 namespace ChatBackgrounds;
 
 public enum BackgroundType
@@ -41,6 +40,36 @@ public class MenuItem
 [DynamicSettings]
 public class Settings
 {
+    public ModSettings.DropdownSetting ChatboxPMode
+    {
+        get
+        {
+            ModSettings.DropdownSetting ChatboxPMode = new()
+            {
+                Name = "BG Scaling Pivot (chatbox)",
+                Description = "Determines which part of the BG remains visible when scaled to fill the chatbox",
+                Options = new(){"Centre", "Bottom", "Top"},
+                AvailableInGame = true,
+                OnChanged = _ => BackgroundManager.UpdateImagePivot()
+            };
+            return ChatboxPMode;
+        }
+    }
+    public ModSettings.DropdownSetting ChatlogPMode
+    {
+        get
+        {
+            ModSettings.DropdownSetting ChatlogPmode = new()
+            {
+                Name = "BG Scaling Pivot (chatlog)",
+                Description = "Determines which part of the BG remains visible when scaled to fill the chatlog",
+                Options = new(){"Centre", "Bottom", "Top"},
+                AvailableInGame = true,
+                OnChanged = _ => BackgroundManager.UpdateImagePivot()
+            };
+            return ChatlogPmode;
+        }
+    }
     public ModSettings.DropdownSetting SelectedBackground
     {
         get
@@ -57,10 +86,8 @@ public class Settings
                 }
             };
             return SelectedBackground;
-            
         }
     }
-
     public ModSettings.DropdownSetting SelectedChatlogBackground
     {
         get
@@ -77,17 +104,15 @@ public class Settings
                 }
             };
             return SelectedChatlogBackground;
-            
         }
     }
-
     public ModSettings.IntegerInputSetting BackgroundTransparency
     {
         get
         {
             ModSettings.IntegerInputSetting BackgroundTransparency = new()
             {
-                Name = "Chatbox BG Transparency",
+                Name = "BG Transparency (chatbox)",
                 Description = "The transparency of the chatbox background. 0 = opaque, 100 = fully transparent.",
                 DefaultValue = 20,
                 MinValue = 0,
@@ -104,7 +129,7 @@ public class Settings
         {
             ModSettings.IntegerInputSetting BackgroundDarkness = new()
             {
-              Name = "Chatbox BG Darkness",
+              Name = "BG Darkness (chatbox)",
               Description = "The darkness of the chatbox background. 0 = normal image brightness, 100 = black",
               DefaultValue = 20,
               MinValue = 0,
@@ -121,7 +146,7 @@ public class Settings
         {
             ModSettings.IntegerInputSetting ChatlogBackgroundTransparency = new()
             {
-                Name = "Chatlog BG Transparency",
+                Name = "BG Transparency (chatlog)",
                 Description = "The transparency of the chatlog background. 0 = opaque, 100 = fully transparent.",
                 DefaultValue = 20,
                 MinValue = 0,
@@ -138,7 +163,7 @@ public class Settings
         {
             ModSettings.IntegerInputSetting ChatlogBackgroundDarkness = new()
             {
-              Name = "Chatlog BG Darkness",
+              Name = "BG Darkness (chatlog)",
               Description = "The darkness of the chatlog background. 0 = normal image brightness, 100 = black",
               DefaultValue = 20,
               MinValue = 0,
@@ -196,6 +221,13 @@ class BackgroundManager
         {BackgroundType.Chatlog, null},
     };
 
+    static readonly Dictionary<string, Vector2> pivots = new() 
+    {
+        {"Centre", new Vector2(0.5f, 0.5f)},
+        {"Bottom", new Vector2(0.5f, 0f)},
+        {"Top", new Vector2(0.5f, 1f)},
+    };
+
     static BackgroundType activeBgType;
 
     static GameObject panelBackingObject = null;
@@ -245,7 +277,7 @@ class BackgroundManager
         rt.anchorMax = Vector2.one;
         rt.offsetMin = Vector2.zero;
         rt.offsetMax = Vector2.zero;
-        rt.pivot = new Vector2(0.5f, 0.5f);
+        UpdateImagePivot();
 
         AspectRatioFitter fitter = bgImageObject.AddComponent<AspectRatioFitter>();
         fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
@@ -276,6 +308,24 @@ class BackgroundManager
         panelBackingObject = null;
     }
 
+    public static void UpdateImagePivot()
+    {
+        if (bgImage == null) return;
+
+        switch (activeBgType)
+        {
+            case BackgroundType.Chatbox:
+            
+                bgImage.rectTransform.pivot = pivots[ModSettings.GetString("BG Scaling Pivot (chatbox)", "Silph5.chatbackgrounds")];
+                break;
+
+            case BackgroundType.Chatlog:
+
+                bgImage.rectTransform.pivot = pivots[ModSettings.GetString("BG Scaling Pivot (chatlog)", "Silph5.chatbackgrounds")];
+                break;
+        }
+    }
+
     public static void UpdateImageColour()
     {
         if (bgImage == null) return;
@@ -285,28 +335,26 @@ class BackgroundManager
         {
             case BackgroundType.Chatbox:
             
-                darkness = 1f - ModSettings.GetInt("Chatbox BG Darkness", "Silph5.chatbackgrounds") / 100f;
+                darkness = 1f - ModSettings.GetInt("BG Darkness (chatbox)", "Silph5.chatbackgrounds") / 100f;
                 bgImage.color = new Color (
                     darkness,
                     darkness,
                     darkness,
-                    1 - (ModSettings.GetInt("Chatbox BG Transparency", "Silph5.chatbackgrounds") / 100f)
+                    1 - (ModSettings.GetInt("BG Transparency (chatbox)", "Silph5.chatbackgrounds") / 100f)
                 );
                 break;
 
             case BackgroundType.Chatlog:
 
-                darkness = 1f - ModSettings.GetInt("Chatlog BG Darkness", "Silph5.chatbackgrounds") / 100f;
+                darkness = 1f - ModSettings.GetInt("BG Darkness (chatlog)", "Silph5.chatbackgrounds") / 100f;
                 bgImage.color = new Color (
                     darkness,
                     darkness,
                     darkness,
-                    1 - (ModSettings.GetInt("Chatlog BG Transparency", "Silph5.chatbackgrounds") / 100f)
+                    1 - (ModSettings.GetInt("BG Transparency (chatlog)", "Silph5.chatbackgrounds") / 100f)
                 );
                 break;
         }
-
-        
     }
 
     public static void UpdatePanelBackingState(bool setting)
@@ -340,6 +388,9 @@ class BackgroundManager
             panelBackingObject.SetActive(true);
             return;
         }
+
+        UpdateImageColour();
+        UpdateImagePivot();
 
         bgImage.sprite = newSprite;
         panelBackingObject.SetActive(ModSettings.GetBool("Keep Panel Backing?", "Silph5.chatbackgrounds"));
