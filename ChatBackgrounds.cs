@@ -236,7 +236,6 @@ class BackgroundManager
 
         GameObject bgImageObject = new GameObject("ChatBG");
         bgImageObject.transform.SetParent(bgContainerObject.transform, false);
-        bgImageObject.transform.SetAsFirstSibling();
 
         bgImage = bgImageObject.AddComponent<Image>();
         bgImage.raycastTarget = false;
