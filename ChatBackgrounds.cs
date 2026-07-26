@@ -48,7 +48,7 @@ public class Settings
             {
                 Name = "BG Scaling Pivot (chatbox)",
                 Description = "Determines which part of the BG remains visible when scaled to fill the chatbox",
-                Options = new(){"Centre", "Bottom", "Top"},
+                Options = new(){"Centre", "Bottom", "Top", "Left", "Right"},
                 AvailableInGame = true,
                 OnChanged = _ => BackgroundManager.UpdateImagePivot()
             };
@@ -63,7 +63,7 @@ public class Settings
             {
                 Name = "BG Scaling Pivot (chatlog)",
                 Description = "Determines which part of the BG remains visible when scaled to fill the chatlog",
-                Options = new(){"Centre", "Bottom", "Top"},
+                Options = new(){"Centre", "Bottom", "Top", "Left", "Right"},
                 AvailableInGame = true,
                 OnChanged = _ => BackgroundManager.UpdateImagePivot()
             };
@@ -226,6 +226,8 @@ class BackgroundManager
         {"Centre", new Vector2(0.5f, 0.5f)},
         {"Bottom", new Vector2(0.5f, 0f)},
         {"Top", new Vector2(0.5f, 1f)},
+        {"Left", new Vector2(0f, 0.5f)},
+        {"Right", new Vector2(1f, 0.5f)},
     };
 
     static BackgroundType activeBgType;
