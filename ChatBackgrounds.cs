@@ -122,24 +122,6 @@ public class Settings
             return BackgroundTransparency;
         }
     }
-
-    public ModSettings.IntegerInputSetting BackgroundDarkness
-    {
-        get
-        {
-            ModSettings.IntegerInputSetting BackgroundDarkness = new()
-            {
-              Name = "BG Darkness (chatbox)",
-              Description = "The darkness of the chatbox background. 0 = normal image brightness, 100 = black",
-              DefaultValue = 20,
-              MinValue = 0,
-              MaxValue = 100,
-              OnChanged = _ => BackgroundManager.UpdateImageColour()
-            };
-            return BackgroundDarkness;
-        }
-    }
-
     public ModSettings.IntegerInputSetting ChatlogBackgroundTransparency
     {
         get
@@ -154,6 +136,22 @@ public class Settings
                 OnChanged = _ => BackgroundManager.UpdateImageColour() //allow player to change background properties midgame
             };
             return ChatlogBackgroundTransparency;
+        }
+    }
+    public ModSettings.IntegerInputSetting BackgroundDarkness
+    {
+        get
+        {
+            ModSettings.IntegerInputSetting BackgroundDarkness = new()
+            {
+              Name = "BG Darkness (chatbox)",
+              Description = "The darkness of the chatbox background. 0 = normal image brightness, 100 = black",
+              DefaultValue = 20,
+              MinValue = 0,
+              MaxValue = 100,
+              OnChanged = _ => BackgroundManager.UpdateImageColour()
+            };
+            return BackgroundDarkness;
         }
     }
 
