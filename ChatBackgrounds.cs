@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Server.Shared.Extensions;
 using Game.Interface;
+using System.Reflection;
+using System;
 
 namespace ChatBackgrounds;
 
@@ -207,10 +209,9 @@ class ViewSwitcherPatch
     }
 }
 
-[HarmonyPatch(typeof(PooledChatController))]
+[HarmonyPatch]
 class BackgroundManager
 {
-    static bool attached = false;
     static GameObject bgContainerObject = null;
     static Image bgImage = null;
     static Dictionary<BackgroundType, Sprite> bgImageSprites = new()
@@ -232,32 +233,44 @@ class BackgroundManager
 
     static GameObject panelBackingObject = null;
 
-    [HarmonyPatch("Start")]
-    [HarmonyPostfix]
-    static void AttachBackground(PooledChatController __instance)
+    static MethodBase TargetMethod() 
     {
-        Debug.Log($"PooledChatController.Start: {__instance.name}");
-        if (attached == true) return;
+        return AccessTools.Method(
+            typeof(GameCanvasManager),
+            "ManageUi",
+            new Type[]
+            {
+                typeof(bool),
+                typeof(GameCanvas),
+                typeof(GameCanvas).MakeByRefType()
+            });
+    }
+
+    //todo: this should be separated to a different class/cs file alongside other patches
+    [HarmonyPostfix]
+    static void AttachBackground(GameCanvasManager __instance, bool shouldShowUi, GameCanvas template, ref GameCanvas instance)
+    {
+        if (!shouldShowUi || instance == null)
+            return;
+
+        if (!ReferenceEquals(template, __instance.GameCanvases.PooledChatElementsCanvas))
+            return;
 
         Debug.Log("ChatBG: attaching");
-
-        attached = true;
-
-        activeBgType = BackgroundType.Chatbox;
         
-        //this feels bad
-        Transform upperChatContents = __instance.transform.root.Find("PooledChatElementsUI(Clone)/Background/ChatContents/ChatUpperContents");
-
+        Transform upperChatContents = instance.transform.Find("Background/ChatContents/ChatUpperContents");
         if (upperChatContents == null)
         {
              Debug.Log("ChatBG: Unable to attach background: Chat panel contents gameobject not found");
              return;
         }
 
+        activeBgType = BackgroundType.Chatbox;
+
         Transform panelBacking = upperChatContents.GetChild(0);
         panelBackingObject = panelBacking.gameObject;
 
-        bgContainerObject = Object.Instantiate(panelBackingObject, upperChatContents);
+        bgContainerObject = UnityEngine.Object.Instantiate(panelBackingObject, upperChatContents);
         bgContainerObject.name = "ChatBGContainer";
         bgContainerObject.transform.SetAsFirstSibling();
 
@@ -297,17 +310,6 @@ class BackgroundManager
         }
 
     }
-
-    [HarmonyPatch("OnDestroy")]
-    [HarmonyPostfix]
-    static void DetachBackground()
-    {
-        attached = false;
-        bgImage = null;
-        bgContainerObject = null;
-        panelBackingObject = null;
-    }
-
     public static void UpdateImagePivot()
     {
         if (bgImage == null) return;
@@ -367,8 +369,8 @@ class BackgroundManager
     public static void LoadNewSprite(BackgroundType spriteType)
     {
         if (bgImageSprites[spriteType] != null) { //don't leak memory
-            Object.Destroy(bgImageSprites[spriteType].texture); 
-            Object.Destroy(bgImageSprites[spriteType]);
+            UnityEngine.Object.Destroy(bgImageSprites[spriteType].texture); 
+            UnityEngine.Object.Destroy(bgImageSprites[spriteType]);
             bgImageSprites[spriteType] = null;
         }
         string selectedBackgroundPath = FileUtils.GetSelectedBackground(spriteType);
