@@ -26,15 +26,22 @@ class CanvasManagerPatch
             });
     }
 
-    [HarmonyPostfix]
-    static void AttachBackground(GameCanvasManager __instance, bool shouldShowUi, GameCanvas template, ref GameCanvas instance)
+    [HarmonyPrefix]
+    static void CheckIfNew(ref bool __state, GameCanvasManager __instance, bool shouldShowUi, GameCanvas template, ref GameCanvas instance)
     {
-        if (!shouldShowUi || instance == null)
+        __state = (instance == null);
+    }
+
+    [HarmonyPostfix]
+    static void AttachBackground(GameCanvasManager __instance, bool __state, bool shouldShowUi, GameCanvas template, ref GameCanvas instance)
+    {
+        if (!shouldShowUi || instance == null || !__state)
             return;
 
         if (ReferenceEquals(template, __instance.GameCanvases.PooledChatElementsCanvas))
         {
             ChatBackgroundManager.AttachBackground(instance.transform.Find("Background/ChatContents/ChatUpperContents"));
+            return;
         }        
         
     }

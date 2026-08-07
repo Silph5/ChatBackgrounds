@@ -49,7 +49,6 @@ class ChatBackgroundManager
 
     static GameObject panelBackingObject = null;
 
-    [HarmonyPostfix]
     public static void AttachBackground(Transform upperChatContents)
     {
         Debug.Log("ChatBG: Attaching background to chatbox");
