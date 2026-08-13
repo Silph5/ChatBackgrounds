@@ -2,6 +2,7 @@ using HarmonyLib;
 using Game.Interface;
 using System.Reflection;
 using System;
+using Mono.Cecil.Cil;
 
 namespace ChatBackgrounds;
 
@@ -37,7 +38,14 @@ class CanvasManagerPatch
         {
             ChatBackgroundManager.AttachBackground(instance.transform.Find("Background/ChatContents/ChatUpperContents"));
             return;
-        }        
+        }
+
+        if (ReferenceEquals(template, __instance.GameCanvases.RoleListAndGraveyardElementsCanvas))
+        {
+            var panel = instance.transform.Find("MainCanvasGroup/MainPanel/RoleListAndGraveyardPanel");
+            RolelistBackgroundManager.AttachBackground(panel);
+            GraveyardBackgroundManager.AttachBackground(panel);
+        }
         
     }
 }

@@ -6,7 +6,9 @@ namespace ChatBackgrounds;
 public enum BackgroundType
 {
     Chatbox,
-    Chatlog
+    Chatlog,
+    Rolelist,
+    Graveyard,
 }
 
 [Mod.SalemMod]

@@ -18,6 +18,8 @@ public static class FileUtils
     {
         {BackgroundType.Chatbox, "No Background"},
         {BackgroundType.Chatlog, "No Background"},
+        {BackgroundType.Rolelist, "No Background"},
+        {BackgroundType.Graveyard, "No Background"},
     };
 
     public static void OnStart()

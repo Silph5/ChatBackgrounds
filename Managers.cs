@@ -24,6 +24,8 @@ class SpritesManager
     {
         {BackgroundType.Chatbox, null},
         {BackgroundType.Chatlog, null},
+        {BackgroundType.Rolelist, null},
+        {BackgroundType.Graveyard, null}
     };
 
     public static void LoadNewSprite(BackgroundType spriteType)
@@ -177,5 +179,32 @@ class ChatBackgroundManager
         
         var fitter = bgImage.GetComponent<AspectRatioFitter>();
         fitter.aspectRatio = newSprite.rect.width / newSprite.rect.height;
+    }
+}
+
+class RolelistBackgroundManager
+{
+    public static void AttachBackground(Transform RolelistAndGraveyardPanel)
+    {
+        Debug.Log("ChatBG: Attaching background to Rolelist");
+        if (RolelistAndGraveyardPanel == null)
+        {
+            Debug.Log("ChatBG: Unable to attach background: Rolelist+gy panel gameobject not found");
+            return;
+        }
+    }
+
+}
+
+class GraveyardBackgroundManager
+{
+    public static void AttachBackground(Transform RolelistAndGraveyardPanel)
+    {
+        Debug.Log("ChatBG: Attaching background to Graveyard");
+        if (RolelistAndGraveyardPanel == null)
+        {
+            Debug.Log("ChatBG: Unable to attach background: Rolelist+gy panel gameobject not found");
+            return;
+        }
     }
 }
