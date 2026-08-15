@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Server.Shared.Extensions;
+using System.ComponentModel;
 
 namespace ChatBackgrounds;
 
@@ -63,7 +64,7 @@ class ChatBackgroundManager
         Transform panelBacking = upperChatContents.GetChild(0);
         panelBackingObject = panelBacking.gameObject;
 
-        bgContainerObject = UnityEngine.Object.Instantiate(panelBackingObject, upperChatContents);
+        bgContainerObject = Object.Instantiate(panelBackingObject, upperChatContents);
         bgContainerObject.name = "ChatBGContainer";
         bgContainerObject.transform.SetAsFirstSibling();
 
@@ -184,6 +185,9 @@ class ChatBackgroundManager
 
 class RolelistBackgroundManager
 {
+    static GameObject bgContainerObject = null;
+    static Image bgImage = null;
+
     public static void AttachBackground(Transform RolelistAndGraveyardPanel)
     {
         Debug.Log("ChatBG: Attaching background to Rolelist");
@@ -192,12 +196,32 @@ class RolelistBackgroundManager
             Debug.Log("ChatBG: Unable to attach background: Rolelist+gy panel gameobject not found");
             return;
         }
+
+        // bgContainerObject = new GameObject();
+        // bgContainerObject.transform.SetParent(RolelistAndGraveyardPanel);
+
+        // double scale = 1024 / 1024; //texture dimensions
+
+        // RectTransform parentTransform = RolelistAndGraveyardPanel.GetComponent<RectTransform>();
+
+        // RectTransform containerTransform = bgContainerObject.AddComponent<RectTransform>();
+        // containerTransform.anchorMin = new Vector2(0f, 1f);
+        // containerTransform.anchorMax = new Vector2(0f, 1f);
+        // containerTransform.pivot = new Vector2(0f, 1f);
+        // containerTransform.anchoredPosition = new Vector2(parentTransform., )
+
+
+        // bgContainerObject.AddComponent<RectMask2D>();
+
     }
 
 }
 
 class GraveyardBackgroundManager
 {
+    static GameObject bgContainerObject = null;
+    static Image bgImage = null;
+
     public static void AttachBackground(Transform RolelistAndGraveyardPanel)
     {
         Debug.Log("ChatBG: Attaching background to Graveyard");
