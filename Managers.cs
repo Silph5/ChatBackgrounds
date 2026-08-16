@@ -197,19 +197,36 @@ class RolelistBackgroundManager
             return;
         }
 
-        // bgContainerObject = new GameObject();
-        // bgContainerObject.transform.SetParent(RolelistAndGraveyardPanel);
+        bgContainerObject = new GameObject();
+        bgContainerObject.transform.SetParent(RolelistAndGraveyardPanel);
 
-        // double scale = 1024 / 1024; //texture dimensions
+        RectTransform parentTransform = RolelistAndGraveyardPanel.GetComponent<RectTransform>();
 
-        // RectTransform parentTransform = RolelistAndGraveyardPanel.GetComponent<RectTransform>();
+        RectTransform containerTransform = bgContainerObject.AddComponent<RectTransform>();
+        containerTransform.anchorMin = new Vector2(0f, 1f);
+        containerTransform.anchorMax = new Vector2(0f, 1f);
+        containerTransform.pivot = new Vector2(0f, 1f);
+        //temp test values
+        containerTransform.anchoredPosition = new Vector2(50, 0);
+        containerTransform.sizeDelta = new Vector2(200, 200);
 
-        // RectTransform containerTransform = bgContainerObject.AddComponent<RectTransform>();
-        // containerTransform.anchorMin = new Vector2(0f, 1f);
-        // containerTransform.anchorMax = new Vector2(0f, 1f);
-        // containerTransform.pivot = new Vector2(0f, 1f);
-        // containerTransform.anchoredPosition = new Vector2(parentTransform., )
+        GameObject bgImageObject = new GameObject("ChatBG");
+        bgImageObject.transform.SetParent(bgContainerObject.transform, false);
 
+        bgImage = bgImageObject.AddComponent<Image>();
+        bgImage.raycastTarget = false;
+
+        RectTransform rt = bgImage.rectTransform;
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+
+        AspectRatioFitter fitter = bgImageObject.AddComponent<AspectRatioFitter>();
+        fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+
+        bgImage.sprite = SpritesManager.bgImageSprites.GetValue(BackgroundType.Chatbox);
+        fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
 
         // bgContainerObject.AddComponent<RectMask2D>();
 
