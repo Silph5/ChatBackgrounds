@@ -43,6 +43,32 @@ class SpritesManager
     }
 }
 
+class BgImageObjectMaker
+{
+    public static GameObject MakeImageObject(BackgroundType type, GameObject container)
+    {
+        GameObject bgImageObject = new GameObject("customBG");
+        bgImageObject.transform.SetParent(container.transform, false);
+
+        Image bgImage = bgImageObject.AddComponent<Image>();
+        bgImage.raycastTarget = false;
+
+        RectTransform rt = bgImage.rectTransform;
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+
+        AspectRatioFitter fitter = bgImageObject.AddComponent<AspectRatioFitter>();
+        fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+
+        bgImage.sprite = SpritesManager.bgImageSprites.GetValue(BackgroundType.Chatbox);
+        fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
+
+        return bgImageObject;
+    }
+}
+
 class ChatBackgroundManager
 {
     static GameObject bgContainerObject = null;
@@ -73,25 +99,9 @@ class ChatBackgroundManager
         Image originalImage = bgContainerObject.GetComponent<Image>();
         originalImage.enabled = false;
 
-        GameObject bgImageObject = new GameObject("ChatBG");
-        bgImageObject.transform.SetParent(bgContainerObject.transform, false);
-
-        bgImage = bgImageObject.AddComponent<Image>();
-        bgImage.raycastTarget = false;
-
-        RectTransform rt = bgImage.rectTransform;
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.one;
-        rt.offsetMin = Vector2.zero;
-        rt.offsetMax = Vector2.zero;
+        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
+        bgImage = bgImageObject.GetComponent<Image>();
         UpdateImagePivot();
-
-        AspectRatioFitter fitter = bgImageObject.AddComponent<AspectRatioFitter>();
-        fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
-
-        bgImage.sprite = SpritesManager.bgImageSprites.GetValue(BackgroundType.Chatbox);
-        fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
-
         UpdateImageColour();
 
         if (bgImage.sprite != null)
@@ -210,23 +220,8 @@ class RolelistBackgroundManager
         containerTransform.anchoredPosition = new Vector2(50, 0);
         containerTransform.sizeDelta = new Vector2(200, 200);
 
-        GameObject bgImageObject = new GameObject("ChatBG");
-        bgImageObject.transform.SetParent(bgContainerObject.transform, false);
-
-        bgImage = bgImageObject.AddComponent<Image>();
-        bgImage.raycastTarget = false;
-
-        RectTransform rt = bgImage.rectTransform;
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.one;
-        rt.offsetMin = Vector2.zero;
-        rt.offsetMax = Vector2.zero;
-
-        AspectRatioFitter fitter = bgImageObject.AddComponent<AspectRatioFitter>();
-        fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
-
-        bgImage.sprite = SpritesManager.bgImageSprites.GetValue(BackgroundType.Chatbox);
-        fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
+        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
+        bgImage = bgImageObject.GetComponent<Image>();
 
         // bgContainerObject.AddComponent<RectMask2D>();
 
