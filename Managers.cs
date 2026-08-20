@@ -209,6 +209,7 @@ class RolelistBackgroundManager
 
         bgContainerObject = new GameObject();
         bgContainerObject.transform.SetParent(RolelistAndGraveyardPanel);
+        bgContainerObject.transform.SetAsFirstSibling();
 
         RectTransform parentTransform = RolelistAndGraveyardPanel.GetComponent<RectTransform>();
 
@@ -217,13 +218,13 @@ class RolelistBackgroundManager
         containerTransform.anchorMax = new Vector2(0f, 1f);
         containerTransform.pivot = new Vector2(0f, 1f);
         //temp test values
-        containerTransform.anchoredPosition = new Vector2(50, 0);
-        containerTransform.sizeDelta = new Vector2(200, 200);
+        containerTransform.anchoredPosition = new Vector2(10, -10);
+        containerTransform.sizeDelta = new Vector2(20, 20);
 
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
 
-        // bgContainerObject.AddComponent<RectMask2D>();
+        bgContainerObject.AddComponent<RectMask2D>();
 
     }
 
