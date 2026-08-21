@@ -3,6 +3,7 @@ using Game.Interface;
 using System.Reflection;
 using System;
 using Mono.Cecil.Cil;
+using UnityEngine;
 
 namespace ChatBackgrounds;
 
@@ -42,7 +43,7 @@ class CanvasManagerPatch
 
         if (ReferenceEquals(template, __instance.GameCanvases.RoleListAndGraveyardElementsCanvas))
         {
-            var panel = instance.transform.Find("MainCanvasGroup/MainPanel");
+            Transform panel = instance.transform;
             RolelistBackgroundManager.AttachBackground(panel);
             GraveyardBackgroundManager.AttachBackground(panel);
         }
