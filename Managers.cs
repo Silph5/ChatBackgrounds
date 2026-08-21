@@ -198,27 +198,27 @@ class RolelistBackgroundManager
     static GameObject bgContainerObject = null;
     static Image bgImage = null;
 
-    public static void AttachBackground(Transform RolelistAndGraveyardPanel)
+    public static void AttachBackground(Transform Panel)
     {
         Debug.Log("ChatBG: Attaching background to Rolelist");
-        if (RolelistAndGraveyardPanel == null)
+        if (Panel == null)
         {
             Debug.Log("ChatBG: Unable to attach background: Rolelist+gy panel gameobject not found");
             return;
         }
 
-        bgContainerObject = new GameObject();
-        bgContainerObject.transform.SetParent(RolelistAndGraveyardPanel);
+        bgContainerObject = new GameObject("BGContainer");
+        bgContainerObject.transform.SetParent(Panel);
         bgContainerObject.transform.SetAsFirstSibling();
 
-        RectTransform parentTransform = RolelistAndGraveyardPanel.GetComponent<RectTransform>();
+        RectTransform parentTransform = Panel.GetComponent<RectTransform>();
 
         RectTransform containerTransform = bgContainerObject.AddComponent<RectTransform>();
         containerTransform.anchorMin = new Vector2(0f, 1f);
         containerTransform.anchorMax = new Vector2(0f, 1f);
         containerTransform.pivot = new Vector2(0f, 1f);
         //temp test values
-        containerTransform.anchoredPosition = new Vector2(10, -10);
+        containerTransform.anchoredPosition = new Vector2(100, -100);
         containerTransform.sizeDelta = new Vector2(20, 20);
 
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
