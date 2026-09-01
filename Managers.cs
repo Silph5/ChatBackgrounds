@@ -210,16 +210,14 @@ class RolelistBackgroundManager
         bgContainerObject = new GameObject("BGContainer");
         bgContainerObject.transform.SetParent(Panel);
         bgContainerObject.transform.SetAsFirstSibling();
-
-        RectTransform parentTransform = Panel.GetComponent<RectTransform>();
-
+        
+        //go in and manually figure out what the values need to be because unity scaling is a bitch
         RectTransform containerTransform = bgContainerObject.AddComponent<RectTransform>();
         containerTransform.anchorMin = new Vector2(0f, 1f);
-        containerTransform.anchorMax = new Vector2(0f, 1f);
+        containerTransform.anchorMax = new Vector2(1f, 0f);
         containerTransform.pivot = new Vector2(0f, 1f);
-        //temp test values
-        containerTransform.anchoredPosition = new Vector2(100, -100);
-        containerTransform.sizeDelta = new Vector2(20, 20);
+        containerTransform.anchoredPosition = new Vector2(0, 0);
+        containerTransform.sizeDelta = new Vector2(0, 0);
 
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
