@@ -38,6 +38,15 @@ class SpritesManager
         }
         string selectedBackgroundPath = FileUtils.GetSelectedBackground(spriteType);
         if (selectedBackgroundPath != "No Background") {
+            //trying to reuse background sprites to avoid unnecessary memory use
+            //untested due to tos2 ddos
+            BackgroundType duplicateType = FileUtils.getDuplicateUse(selectedBackgroundPath);
+            if (duplicateType != BackgroundType.None)
+            {
+                bgImageSprites[spriteType] = bgImageSprites[duplicateType];
+                return;
+            }
+
             bgImageSprites[spriteType] = IMG2Sprite.LoadNewSprite(selectedBackgroundPath);
         }
     }
@@ -216,8 +225,8 @@ class RolelistBackgroundManager
         containerTransform.anchorMin = new Vector2(0f, 1f);
         containerTransform.anchorMax = new Vector2(1f, 0f);
         containerTransform.pivot = new Vector2(0f, 1f);
-        containerTransform.anchoredPosition = new Vector2(0, 0);
-        containerTransform.sizeDelta = new Vector2(0, 0);
+        containerTransform.anchoredPosition = new Vector2(0.2f, 0.2f);
+        containerTransform.sizeDelta = new Vector2(0.4f, 0.4f);
 
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();

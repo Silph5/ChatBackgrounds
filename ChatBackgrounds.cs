@@ -5,6 +5,7 @@ namespace ChatBackgrounds;
 
 public enum BackgroundType
 {
+    None = 0, //strictly for returns
     Chatbox,
     Chatlog,
     Rolelist,

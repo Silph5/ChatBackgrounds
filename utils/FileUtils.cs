@@ -92,4 +92,21 @@ public static class FileUtils
         }
 
     }
+
+    public static BackgroundType getDuplicateUse(string path)
+    {
+        if (path == "No Background")
+        {
+            return BackgroundType.None;
+        }
+
+        foreach(var pair in selectedBackgroundPaths)
+        {
+            if (pair.Value == path)
+            {
+                return pair.Key;
+            }
+        }
+        return BackgroundType.None;
+    }
 }
