@@ -31,16 +31,18 @@ class SpritesManager
 
     public static void LoadNewSprite(BackgroundType spriteType)
     {
-        if (bgImageSprites[spriteType] != null) { //don't leak memory
+        string selectedBackgroundPath = FileUtils.GetSelectedBackground(spriteType);
+        BackgroundType duplicateType = FileUtils.getDuplicateUse(selectedBackgroundPath);
+        
+        if (bgImageSprites[spriteType] != null && duplicateType == BackgroundType.None) { //don't leak memory
             Object.Destroy(bgImageSprites[spriteType].texture); 
             Object.Destroy(bgImageSprites[spriteType]);
             bgImageSprites[spriteType] = null;
         }
-        string selectedBackgroundPath = FileUtils.GetSelectedBackground(spriteType);
+        
         if (selectedBackgroundPath != "No Background") {
             //trying to reuse background sprites to avoid unnecessary memory use
             //untested due to tos2 ddos
-            BackgroundType duplicateType = FileUtils.getDuplicateUse(selectedBackgroundPath);
             if (duplicateType != BackgroundType.None)
             {
                 bgImageSprites[spriteType] = bgImageSprites[duplicateType];
@@ -71,7 +73,7 @@ class BgImageObjectMaker
         AspectRatioFitter fitter = bgImageObject.AddComponent<AspectRatioFitter>();
         fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
 
-        bgImage.sprite = SpritesManager.bgImageSprites.GetValue(BackgroundType.Chatbox);
+        bgImage.sprite = SpritesManager.bgImageSprites.GetValue(type);
         fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
 
         return bgImageObject;
@@ -228,7 +230,7 @@ class RolelistBackgroundManager
         containerTransform.anchoredPosition = new Vector2(0.2f, 0.2f);
         containerTransform.sizeDelta = new Vector2(0.4f, 0.4f);
 
-        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
+        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Chatbox, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
 
         bgContainerObject.AddComponent<RectMask2D>();
