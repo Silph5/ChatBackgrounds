@@ -93,7 +93,7 @@ public static class FileUtils
 
     }
 
-    public static BackgroundType getDuplicateUse(string path)
+    public static BackgroundType getDuplicateUse(string path, BackgroundType curType)
     {
         if (path == "No Background")
         {
@@ -102,6 +102,11 @@ public static class FileUtils
 
         foreach(var pair in selectedBackgroundPaths)
         {
+            if (pair.Key == curType)
+            {
+                continue;
+            }
+            
             if (pair.Value == path)
             {
                 return pair.Key;

@@ -32,7 +32,7 @@ class SpritesManager
     public static void LoadNewSprite(BackgroundType spriteType)
     {
         string selectedBackgroundPath = FileUtils.GetSelectedBackground(spriteType);
-        BackgroundType duplicateType = FileUtils.getDuplicateUse(selectedBackgroundPath);
+        BackgroundType duplicateType = FileUtils.getDuplicateUse(selectedBackgroundPath, spriteType);
         
         if (bgImageSprites[spriteType] != null && duplicateType == BackgroundType.None) { //don't leak memory
             Object.Destroy(bgImageSprites[spriteType].texture); 
@@ -110,7 +110,7 @@ class ChatBackgroundManager
         Image originalImage = bgContainerObject.GetComponent<Image>();
         originalImage.enabled = false;
 
-        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
+        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Chatbox, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
         UpdateImagePivot();
         UpdateImageColour();
@@ -221,6 +221,7 @@ class RolelistBackgroundManager
         bgContainerObject = new GameObject("BGContainer");
         bgContainerObject.transform.SetParent(Panel);
         bgContainerObject.transform.SetAsFirstSibling();
+        bgContainerObject.AddComponent<RectMask2D>();
         
         //go in and manually figure out what the values need to be because unity scaling is a bitch
         RectTransform containerTransform = bgContainerObject.AddComponent<RectTransform>();
@@ -233,7 +234,6 @@ class RolelistBackgroundManager
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Chatbox, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
 
-        bgContainerObject.AddComponent<RectMask2D>();
 
     }
 
