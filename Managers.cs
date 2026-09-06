@@ -232,7 +232,7 @@ class RolelistBackgroundManager
         containerTransform.anchoredPosition = new Vector2(10f, 10f);
         containerTransform.sizeDelta = new Vector2(10f, 10f);
 
-        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Chatbox, bgContainerObject);
+        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
 
 

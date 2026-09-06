@@ -103,6 +103,44 @@ public class Settings
             return SelectedChatlogBackground;
         }
     }
+
+    public ModSettings.DropdownSetting SelectedRoleListBackground
+    {
+        get
+        {
+            ModSettings.DropdownSetting SelectedRoleListBackground = new()
+            {
+                Name = "Rolelist Background",
+                Description = "The background to be applied to the role list",
+                Options = FileUtils.GetBackgroundOptions(),
+                AvailableInGame = false,
+                OnChanged = (s) => {
+                    FileUtils.SelectBackground(s, BackgroundType.Rolelist);
+                    SpritesManager.LoadNewSprite(BackgroundType.Rolelist);
+                }
+            };
+            return SelectedRoleListBackground;
+        }
+    }
+    public ModSettings.DropdownSetting SelectedGraveyardBackground
+    {
+        get
+        {
+            ModSettings.DropdownSetting SelectedChatlogBackground = new()
+            {
+                Name = "Graveyard Background",
+                Description = "The background to be applied to your graveyard",
+                Options = FileUtils.GetBackgroundOptions(),
+                AvailableInGame = false,
+                OnChanged = (s) => {
+                    FileUtils.SelectBackground(s, BackgroundType.Graveyard);
+                    SpritesManager.LoadNewSprite(BackgroundType.Graveyard);
+                }
+            };
+            return SelectedChatlogBackground;
+        }
+    }
+
     public ModSettings.IntegerInputSetting BackgroundTransparency
     {
         get
