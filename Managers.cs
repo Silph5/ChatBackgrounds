@@ -31,8 +31,7 @@ class SpritesManager
 
     public static void LoadNewSprite(BackgroundType spriteType)
     {
-        string selectedBackgroundPath = FileUtils.GetSelectedBackground(spriteType);
-        BackgroundType duplicateType = FileUtils.getDuplicateUse(selectedBackgroundPath, spriteType);
+        BackgroundType duplicateType = FileUtils.getDuplicateUse(spriteType);
         
         if (bgImageSprites[spriteType] != null && duplicateType == BackgroundType.None) { //don't leak memory
             Object.Destroy(bgImageSprites[spriteType].texture); 
@@ -40,6 +39,7 @@ class SpritesManager
             bgImageSprites[spriteType] = null;
         }
         
+        string selectedBackgroundPath = FileUtils.GetSelectedBackground(spriteType);
         if (selectedBackgroundPath != "No Background") {
             //trying to reuse background sprites to avoid unnecessary memory use
             //untested due to tos2 ddos
@@ -192,6 +192,7 @@ class ChatBackgroundManager
             panelBackingObject.SetActive(true);
             return;
         }
+        bgContainerObject.SetActive(true);
 
         UpdateImageColour();
         UpdateImagePivot();
@@ -228,8 +229,8 @@ class RolelistBackgroundManager
         containerTransform.anchorMin = new Vector2(0f, 1f);
         containerTransform.anchorMax = new Vector2(1f, 0f);
         containerTransform.pivot = new Vector2(0f, 1f);
-        containerTransform.anchoredPosition = new Vector2(0.2f, 0.2f);
-        containerTransform.sizeDelta = new Vector2(0.4f, 0.4f);
+        containerTransform.anchoredPosition = new Vector2(10f, 10f);
+        containerTransform.sizeDelta = new Vector2(10f, 10f);
 
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Chatbox, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();

@@ -13,6 +13,8 @@ namespace ChatBackgrounds;
 public static class FileUtils
 {
     private static string directoryPath;
+
+    private static string lastDeselectedImagePath;
     private static Dictionary<string, string> backgrounds = new();
     private static Dictionary<BackgroundType, string> selectedBackgroundPaths = new()
     {
@@ -65,6 +67,7 @@ public static class FileUtils
 
     public static void SelectBackground(string choice, BackgroundType type)
     {
+        lastDeselectedImagePath = selectedBackgroundPaths[type];
         if (choice == "No Background")
         {
             selectedBackgroundPaths[type] = choice;
@@ -93,9 +96,9 @@ public static class FileUtils
 
     }
 
-    public static BackgroundType getDuplicateUse(string path, BackgroundType curType)
+    public static BackgroundType getDuplicateUse(BackgroundType curType)
     {
-        if (path == "No Background")
+        if (lastDeselectedImagePath == "No Background")
         {
             return BackgroundType.None;
         }
@@ -107,7 +110,7 @@ public static class FileUtils
                 continue;
             }
             
-            if (pair.Value == path)
+            if (pair.Value == lastDeselectedImagePath)
             {
                 return pair.Key;
             }
