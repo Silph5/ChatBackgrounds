@@ -43,7 +43,7 @@ class CanvasManagerPatch
 
         if (ReferenceEquals(template, __instance.GameCanvases.RoleListAndGraveyardElementsCanvas))
         {
-            Transform panel = instance.transform;
+            Transform panel = instance.transform.Find("MainCanvasGroup/MainPanel/RoleListAndGraveyardPanel");
             RolelistBackgroundManager.AttachBackground(panel);
             // GraveyardBackgroundManager.AttachBackground(panel);
         }

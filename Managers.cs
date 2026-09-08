@@ -218,11 +218,13 @@ class RolelistBackgroundManager
             Debug.Log("ChatBG: Unable to attach background: Rolelist+gy panel gameobject not found");
             return;
         }
+        Debug.Log("silph0");
 
         bgContainerObject = new GameObject("BGContainer");
         bgContainerObject.transform.SetParent(Panel);
         bgContainerObject.transform.SetAsFirstSibling();
         bgContainerObject.AddComponent<RectMask2D>();
+        Debug.Log("silph1");
         
         //go in and manually figure out what the values need to be because unity scaling is a bitch
         RectTransform containerTransform = bgContainerObject.AddComponent<RectTransform>();
@@ -231,10 +233,12 @@ class RolelistBackgroundManager
         containerTransform.pivot = new Vector2(0f, 1f);
         containerTransform.anchoredPosition = new Vector2(10f, 10f);
         containerTransform.sizeDelta = new Vector2(10f, 10f);
+        Debug.Log("silph2");
+
 
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
-
+        Debug.Log("silph3");
 
     }
 
