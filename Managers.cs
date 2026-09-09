@@ -220,14 +220,13 @@ class RolelistBackgroundManager
         }
         Debug.Log("silph0");
 
-        bgContainerObject = new GameObject("BGContainer");
+        bgContainerObject = new GameObject("BGContainer", typeof(RectTransform));
         bgContainerObject.transform.SetParent(Panel);
         bgContainerObject.transform.SetAsFirstSibling();
         bgContainerObject.AddComponent<RectMask2D>();
         Debug.Log("silph1");
         
-        //go in and manually figure out what the values need to be because unity scaling is a bitch
-        RectTransform containerTransform = bgContainerObject.AddComponent<RectTransform>();
+        RectTransform containerTransform = bgContainerObject.GetComponent<RectTransform>();
         containerTransform.anchorMin = new Vector2(0f, 1f);
         containerTransform.anchorMax = new Vector2(1f, 0f);
         containerTransform.pivot = new Vector2(0f, 1f);
