@@ -98,7 +98,8 @@ public static class FileUtils
 
     public static BackgroundType getDuplicateUse(BackgroundType curType)
     {
-        if (lastDeselectedImagePath == "No Background")
+        var curPath = GetSelectedBackground(curType);
+        if (curPath == "No Background")
         {
             return BackgroundType.None;
         }
@@ -110,7 +111,7 @@ public static class FileUtils
                 continue;
             }
             
-            if (pair.Value == lastDeselectedImagePath)
+            if (pair.Value == curPath)
             {
                 return pair.Key;
             }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Server.Shared.Extensions;
 using System.ComponentModel;
+using System.Linq;
 
 namespace ChatBackgrounds;
 
@@ -29,11 +30,30 @@ class SpritesManager
         {BackgroundType.Graveyard, null}
     };
 
+    private static bool CanDeleteSprite(BackgroundType spriteType)
+    {
+        var curSprite = bgImageSprites[spriteType];
+        if (curSprite == null) return false;
+        
+        foreach(var pair in bgImageSprites)
+        {
+            if (pair.Key == spriteType)
+            {
+                continue;
+            }
+            
+            if (pair.Value == curSprite)
+            {
+                return false;
+            }
+        }
+        return true;
+    } 
+
     public static void LoadNewSprite(BackgroundType spriteType)
     {
-        BackgroundType duplicateType = FileUtils.getDuplicateUse(spriteType);
         
-        if (bgImageSprites[spriteType] != null && duplicateType == BackgroundType.None) { //don't leak memory
+        if (bgImageSprites[spriteType] != null) { //don't leak memory
             Object.Destroy(bgImageSprites[spriteType].texture); 
             Object.Destroy(bgImageSprites[spriteType]);
             bgImageSprites[spriteType] = null;
@@ -43,6 +63,7 @@ class SpritesManager
         if (selectedBackgroundPath != "No Background") {
             //trying to reuse background sprites to avoid unnecessary memory use
             //untested due to tos2 ddos
+            var duplicateType = FileUtils.getDuplicateUse(spriteType);
             if (duplicateType != BackgroundType.None)
             {
                 bgImageSprites[spriteType] = bgImageSprites[duplicateType];
@@ -51,6 +72,7 @@ class SpritesManager
 
             bgImageSprites[spriteType] = IMG2Sprite.LoadNewSprite(selectedBackgroundPath);
         }
+        Debug.Log($"bgImageSprites:\n{string.Join("\n", bgImageSprites.Select(kvp => $"{kvp.Key} = {kvp.Value}"))}");    
     }
 }
 
@@ -73,7 +95,10 @@ class BgImageObjectMaker
         AspectRatioFitter fitter = bgImageObject.AddComponent<AspectRatioFitter>();
         fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
 
+
         bgImage.sprite = SpritesManager.bgImageSprites.GetValue(type);
+        Debug.Log($"Rolelist sprite = {bgImage.sprite}");
+
         fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
 
         return bgImageObject;
