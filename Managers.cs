@@ -99,7 +99,9 @@ class BgImageObjectMaker
         bgImage.sprite = SpritesManager.bgImageSprites.GetValue(type);
         Debug.Log($"Rolelist sprite = {bgImage.sprite}");
 
-        fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
+        if (bgImage.sprite != null) {
+            fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
+        }
 
         return bgImageObject;
     }
@@ -243,13 +245,17 @@ class RolelistBackgroundManager
             Debug.Log("ChatBG: Unable to attach background: Rolelist+gy panel gameobject not found");
             return;
         }
-        Debug.Log("silph0");
+
+        if (SpritesManager.bgImageSprites[BackgroundType.Rolelist] == null)
+        {
+            Debug.Log("ChatBG: no rolelist bg selected");
+            return;
+        }
 
         bgContainerObject = new GameObject("BGContainer", typeof(RectTransform));
         bgContainerObject.transform.SetParent(Panel);
         bgContainerObject.transform.SetAsFirstSibling();
         bgContainerObject.AddComponent<RectMask2D>();
-        Debug.Log("silph1");
         
         RectTransform containerTransform = bgContainerObject.GetComponent<RectTransform>();
         containerTransform.anchorMin = new Vector2(0f, 1f);
@@ -257,12 +263,9 @@ class RolelistBackgroundManager
         containerTransform.pivot = new Vector2(0f, 1f);
         containerTransform.anchoredPosition = new Vector2(10f, 10f);
         containerTransform.sizeDelta = new Vector2(10f, 10f);
-        Debug.Log("silph2");
-
 
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
-        Debug.Log("silph3");
 
     }
 
