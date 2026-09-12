@@ -53,7 +53,7 @@ class SpritesManager
     public static void LoadNewSprite(BackgroundType spriteType)
     {
         
-        if (bgImageSprites[spriteType] != null) { //don't leak memory
+        if (CanDeleteSprite(spriteType)) { //don't leak memory
             Object.Destroy(bgImageSprites[spriteType].texture); 
             Object.Destroy(bgImageSprites[spriteType]);
             bgImageSprites[spriteType] = null;
@@ -97,7 +97,6 @@ class BgImageObjectMaker
 
 
         bgImage.sprite = SpritesManager.bgImageSprites.GetValue(type);
-        Debug.Log($"Rolelist sprite = {bgImage.sprite}");
 
         if (bgImage.sprite != null) {
             fitter.aspectRatio = bgImage.sprite.rect.width / bgImage.sprite.rect.height;
@@ -267,6 +266,20 @@ class RolelistBackgroundManager
         GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
 
+    }
+
+    public static void UpdateImageColour()
+    {
+        if (bgImage == null) return;
+            
+        float darkness = 1f - ModSettings.GetInt("BG Darkness (rolelist)", "Silph5.chatbackgrounds") / 100f;
+        bgImage.color = new Color (
+            darkness,
+            darkness,
+            darkness,
+            1 - (ModSettings.GetInt("BG Transparency (rolelist)", "Silph5.chatbackgrounds") / 100f)
+        );
+            
     }
 
 }

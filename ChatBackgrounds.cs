@@ -173,6 +173,22 @@ public class Settings
             return ChatlogBackgroundTransparency;
         }
     }
+    public ModSettings.IntegerInputSetting RolelistBackgroundTransparency
+    {
+        get
+        {
+            ModSettings.IntegerInputSetting RolelistBackgroundTransparency = new()
+            {
+                Name = "BG Transparency (rolelist)",
+                Description = "The transparency of the rolelist background. 0 = opaque, 100 = fully transparent.",
+                DefaultValue = 20,
+                MinValue = 0,
+                MaxValue = 100,
+                OnChanged = _ => RolelistBackgroundManager.UpdateImageColour() //allow player to change background properties midgame
+            };
+            return RolelistBackgroundTransparency;
+        }
+    }
     public ModSettings.IntegerInputSetting BackgroundDarkness
     {
         get
@@ -206,6 +222,22 @@ public class Settings
             return ChatlogBackgroundDarkness;
         }
     }
+    public ModSettings.IntegerInputSetting RolelistBackgroundDarkness
+    {
+        get
+        {
+            ModSettings.IntegerInputSetting RolelistBackgroundDarkness = new()
+            {
+              Name = "BG Darkness (rolelist)",
+              Description = "The darkness of the rolelist background. 0 = normal image brightness, 100 = black",
+              DefaultValue = 20,
+              MinValue = 0,
+              MaxValue = 100,
+              OnChanged = _ => RolelistBackgroundManager.UpdateImageColour()
+            };
+            return RolelistBackgroundDarkness;
+        }
+    }
 
     public ModSettings.CheckboxSetting KeepBacking
     {
@@ -213,7 +245,7 @@ public class Settings
         {
             ModSettings.CheckboxSetting KeepBacking = new()
             {
-                Name = "Keep Panel Backing As Overlay?",
+                Name = "Keep Panel Backing As Overlay? (chatbox+log)",
                 Description = "If enabled, the backing of the chatbox/chatlog panel will be overlayed on your background",
                 DefaultValue = true,
                 AvailableInGame = true,
