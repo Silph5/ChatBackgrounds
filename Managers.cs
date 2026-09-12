@@ -235,7 +235,6 @@ class RolelistBackgroundManager
 {
     static GameObject bgContainerObject = null;
     static Image bgImage = null;
-
     public static void AttachBackground(Transform Panel)
     {
         Debug.Log("ChatBG: Attaching background to Rolelist");
@@ -282,6 +281,13 @@ class RolelistBackgroundManager
             
     }
 
+    public static void UpdateImagePivot()
+    {
+        if (bgImage == null) return;
+
+         bgImage.rectTransform.pivot = Constants.pivots[ModSettings.GetString("BG Scaling Pivot (rolelist)", "Silph5.chatbackgrounds")];
+
+    }
 }
 
 class GraveyardBackgroundManager

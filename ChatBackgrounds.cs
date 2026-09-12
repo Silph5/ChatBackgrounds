@@ -67,6 +67,21 @@ public class Settings
             return ChatlogPmode;
         }
     }
+    public ModSettings.DropdownSetting RolelistPMode
+    {
+        get
+        {
+            ModSettings.DropdownSetting RolelistPMode = new()
+            {
+                Name = "BG Scaling Pivot (rolelist)",
+                Description = "Determines which part of the BG remains visible when scaled to fill the rolelist",
+                Options = new(){"Centre", "Bottom", "Top", "Left", "Right"},
+                AvailableInGame = true,
+                OnChanged = _ => RolelistBackgroundManager.UpdateImagePivot()
+            };
+            return RolelistPMode;
+        }
+    }
     public ModSettings.DropdownSetting SelectedBackground
     {
         get
