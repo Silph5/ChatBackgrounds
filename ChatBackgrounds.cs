@@ -21,6 +21,7 @@ public class ChatBackgrounds
         FileUtils.OnStart();
         SpritesManager.LoadNewSprite(BackgroundType.Chatbox);
         SpritesManager.LoadNewSprite(BackgroundType.Chatlog);
+        SpritesManager.LoadNewSprite(BackgroundType.Rolelist);
     }
 }
 
