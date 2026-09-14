@@ -61,8 +61,7 @@ class SpritesManager
         
         string selectedBackgroundPath = FileUtils.GetSelectedBackground(spriteType);
         if (selectedBackgroundPath != "No Background") {
-            //trying to reuse background sprites to avoid unnecessary memory use
-            //untested due to tos2 ddos
+
             var duplicateType = FileUtils.getDuplicateUse(spriteType);
             if (duplicateType != BackgroundType.None)
             {
@@ -76,8 +75,25 @@ class SpritesManager
     }
 }
 
-class BgImageObjectMaker
+class ModObjectMaker
 {
+    public static GameObject MakeContainerObject(Transform parent, Vector2 anchPos, Vector2 sizeDelta)
+    {
+        GameObject bgContainerObject = new GameObject("BGContainer", typeof(RectTransform));
+        bgContainerObject.transform.SetParent(parent);
+        bgContainerObject.transform.SetAsFirstSibling();
+        bgContainerObject.AddComponent<RectMask2D>();
+
+        RectTransform containerTransform = bgContainerObject.GetComponent<RectTransform>();
+        containerTransform.anchorMin = new Vector2(0f, 1f);
+        containerTransform.anchorMax = new Vector2(0f, 1f);
+        containerTransform.pivot = new Vector2(0f, 1f);
+        containerTransform.anchoredPosition = anchPos;
+        containerTransform.sizeDelta = sizeDelta;
+
+        return bgContainerObject;
+    }
+
     public static GameObject MakeImageObject(BackgroundType type, GameObject container)
     {
         GameObject bgImageObject = new GameObject("customBG");
@@ -136,7 +152,7 @@ class ChatBackgroundManager
         Image originalImage = bgContainerObject.GetComponent<Image>();
         originalImage.enabled = false;
 
-        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Chatbox, bgContainerObject);
+        GameObject bgImageObject = ModObjectMaker.MakeImageObject(BackgroundType.Chatbox, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
         UpdateImagePivot();
         UpdateImageColour();
@@ -250,20 +266,13 @@ class RolelistBackgroundManager
             return;
         }
 
-        bgContainerObject = new GameObject("BGContainer", typeof(RectTransform));
-        bgContainerObject.transform.SetParent(Panel);
-        bgContainerObject.transform.SetAsFirstSibling();
-        bgContainerObject.AddComponent<RectMask2D>();
-        
-        RectTransform containerTransform = bgContainerObject.GetComponent<RectTransform>();
-        containerTransform.anchorMin = new Vector2(0f, 1f);
-        containerTransform.anchorMax = new Vector2(1f, 0f);
-        containerTransform.pivot = new Vector2(0f, 1f);
-        containerTransform.anchoredPosition = new Vector2(10f, 10f);
-        containerTransform.sizeDelta = new Vector2(10f, 10f);
-
-        GameObject bgImageObject = BgImageObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
+        //magic numbers are obtained via manual trial and error, since i couldn't figure out unity's ui scaling. srry.
+        bgContainerObject = ModObjectMaker.MakeContainerObject(Panel, new Vector2(35f, -114f), new Vector2(0.33f, 0.68f));
+        GameObject bgImageObject = ModObjectMaker.MakeImageObject(BackgroundType.Rolelist, bgContainerObject);
         bgImage = bgImageObject.GetComponent<Image>();
+
+        UpdateImagePivot();
+        UpdateImageColour();
 
     }
 
