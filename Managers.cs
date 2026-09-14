@@ -295,6 +295,15 @@ class RolelistBackgroundManager
          bgImage.rectTransform.pivot = Constants.pivots[ModSettings.GetString("BG Scaling Pivot (rolelist)", "Silph5.chatbackgrounds")];
 
     }
+
+    public static void Hide()
+    {
+        bgContainerObject.SetActive(false);
+    }
+    public static void Show()
+    {
+        bgContainerObject.SetActive(true);
+    }
 }
 
 class GraveyardBackgroundManager
@@ -345,5 +354,14 @@ class GraveyardBackgroundManager
 
          bgImage.rectTransform.pivot = Constants.pivots[ModSettings.GetString("BG Scaling Pivot (graveyard)", "Silph5.chatbackgrounds")];
 
+    }
+
+    public static void Hide()
+    {
+        bgContainerObject.SetActive(false);
+    }
+    public static void Show()
+    {
+        bgContainerObject.SetActive(true);
     }
 }

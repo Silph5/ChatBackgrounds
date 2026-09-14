@@ -68,3 +68,40 @@ class ViewSwitcherPatch
         ChatBackgroundManager.SwitchBackground(BackgroundType.Chatlog);
     }
 }
+
+
+[HarmonyPatch(typeof(HudRoleListPanel))]
+class HudRoleListPanelPatch
+{
+    [HarmonyPatch("Show")]
+    [HarmonyPostfix]
+    static void ShowBG()
+    {
+        RolelistBackgroundManager.Show();
+    }
+
+    [HarmonyPatch("Hide")]
+    [HarmonyPostfix]
+    static void HideBG()
+    {
+        RolelistBackgroundManager.Hide();
+    }
+}
+
+[HarmonyPatch(typeof(HudGraveyardPanel))]
+class HudGraveyardPanelPatch
+{
+    [HarmonyPatch("Show")]
+    [HarmonyPostfix]
+    static void ShowBG()
+    {
+        GraveyardBackgroundManager.Show();
+    }
+
+    [HarmonyPatch("Hide")]
+    [HarmonyPostfix]
+    static void HideBG()
+    {
+        GraveyardBackgroundManager.Hide();
+    }
+}
