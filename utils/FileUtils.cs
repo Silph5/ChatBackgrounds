@@ -49,6 +49,7 @@ public static class FileUtils
         SelectBackground(ModSettings.GetString("Chatbox Background", "Silph5.chatbackgrounds"), BackgroundType.Chatbox);
         SelectBackground(ModSettings.GetString("Chatlog Background", "Silph5.chatbackgrounds"), BackgroundType.Chatlog);
         SelectBackground(ModSettings.GetString("Rolelist Background", "Silph5.chatbackgrounds"), BackgroundType.Rolelist);
+        SelectBackground(ModSettings.GetString("Graveyard Background", "Silph5.chatbackgrounds"), BackgroundType.Graveyard);
     }
 
     public static List<string> GetBackgroundOptions()

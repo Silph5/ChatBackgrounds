@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Server.Shared.Extensions;
-using System.ComponentModel;
 using System.Linq;
 
 namespace ChatBackgrounds;
@@ -71,7 +70,6 @@ class SpritesManager
 
             bgImageSprites[spriteType] = IMG2Sprite.LoadNewSprite(selectedBackgroundPath);
         }
-        Debug.Log($"bgImageSprites:\n{string.Join("\n", bgImageSprites.Select(kvp => $"{kvp.Key} = {kvp.Value}"))}");    
     }
 }
 
@@ -304,13 +302,48 @@ class GraveyardBackgroundManager
     static GameObject bgContainerObject = null;
     static Image bgImage = null;
 
-    public static void AttachBackground(Transform RolelistAndGraveyardPanel)
+    public static void AttachBackground(Transform Panel)
     {
         Debug.Log("ChatBG: Attaching background to Graveyard");
-        if (RolelistAndGraveyardPanel == null)
+        if (Panel == null)
         {
             Debug.Log("ChatBG: Unable to attach background: Rolelist+gy panel gameobject not found");
             return;
         }
+
+        if (SpritesManager.bgImageSprites[BackgroundType.Graveyard] == null)
+        {
+            Debug.Log("ChatBG: no graveyard bg selected");
+            return;
+        }
+
+        bgContainerObject = ModObjectMaker.MakeContainerObject(Panel, new Vector2(325f, -114f), new Vector2(0.46f, 0.68f));
+        GameObject bgImageObject = ModObjectMaker.MakeImageObject(BackgroundType.Graveyard, bgContainerObject);
+        bgImage = bgImageObject.GetComponent<Image>();
+
+        UpdateImagePivot();
+        UpdateImageColour();
+    }
+
+    public static void UpdateImageColour()
+    {
+        if (bgImage == null) return;
+            
+        float darkness = 1f - ModSettings.GetInt("BG Darkness (graveyard)", "Silph5.chatbackgrounds") / 100f;
+        bgImage.color = new Color (
+            darkness,
+            darkness,
+            darkness,
+            1 - (ModSettings.GetInt("BG Transparency (graveyard)", "Silph5.chatbackgrounds") / 100f)
+        );
+            
+    }
+
+    public static void UpdateImagePivot()
+    {
+        if (bgImage == null) return;
+
+         bgImage.rectTransform.pivot = Constants.pivots[ModSettings.GetString("BG Scaling Pivot (graveyard)", "Silph5.chatbackgrounds")];
+
     }
 }

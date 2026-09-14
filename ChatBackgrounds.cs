@@ -22,6 +22,7 @@ public class ChatBackgrounds
         SpritesManager.LoadNewSprite(BackgroundType.Chatbox);
         SpritesManager.LoadNewSprite(BackgroundType.Chatlog);
         SpritesManager.LoadNewSprite(BackgroundType.Rolelist);
+        SpritesManager.LoadNewSprite(BackgroundType.Graveyard);
     }
 }
 
@@ -81,6 +82,22 @@ public class Settings
                 OnChanged = _ => RolelistBackgroundManager.UpdateImagePivot()
             };
             return RolelistPMode;
+        }
+    }
+
+    public ModSettings.DropdownSetting GraveyardPMode
+    {
+        get
+        {
+            ModSettings.DropdownSetting GraveyardPMode = new()
+            {
+                Name = "BG Scaling Pivot (graveyard)",
+                Description = "Determines which part of the BG remains visible when scaled to fill the graveyard",
+                Options = new(){"Centre", "Bottom", "Top", "Left", "Right"},
+                AvailableInGame = true,
+                OnChanged = _ => GraveyardBackgroundManager.UpdateImagePivot()
+            };
+            return GraveyardPMode;
         }
     }
     public ModSettings.DropdownSetting SelectedBackground
@@ -205,6 +222,22 @@ public class Settings
             return RolelistBackgroundTransparency;
         }
     }
+    public ModSettings.IntegerInputSetting GraveyardBackgroundTransparency
+    {
+        get
+        {
+            ModSettings.IntegerInputSetting GraveyardBackgroundTransparency = new()
+            {
+                Name = "BG Transparency (graveyard)",
+                Description = "The transparency of the graveyard background. 0 = opaque, 100 = fully transparent.",
+                DefaultValue = 20,
+                MinValue = 0,
+                MaxValue = 100,
+                OnChanged = _ => GraveyardBackgroundManager.UpdateImageColour() //allow player to change background properties midgame
+            };
+            return GraveyardBackgroundTransparency;
+        }
+    }
     public ModSettings.IntegerInputSetting BackgroundDarkness
     {
         get
@@ -252,6 +285,22 @@ public class Settings
               OnChanged = _ => RolelistBackgroundManager.UpdateImageColour()
             };
             return RolelistBackgroundDarkness;
+        }
+    }
+    public ModSettings.IntegerInputSetting GraveyardBackgroundDarkness
+    {
+        get
+        {
+            ModSettings.IntegerInputSetting GraveyardBackgroundDarkness = new()
+            {
+              Name = "BG Darkness (graveyard)",
+              Description = "The darkness of the graveyard background. 0 = normal image brightness, 100 = black",
+              DefaultValue = 20,
+              MinValue = 0,
+              MaxValue = 100,
+              OnChanged = _ => GraveyardBackgroundManager.UpdateImageColour()
+            };
+            return GraveyardBackgroundDarkness;
         }
     }
 

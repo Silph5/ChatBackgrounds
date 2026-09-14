@@ -45,7 +45,7 @@ class CanvasManagerPatch
         {
             Transform panel = instance.transform.Find("MainCanvasGroup/MainPanel");
             RolelistBackgroundManager.AttachBackground(panel);
-            // GraveyardBackgroundManager.AttachBackground(panel);
+            GraveyardBackgroundManager.AttachBackground(panel);
         }
         
     }
