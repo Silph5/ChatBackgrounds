@@ -78,6 +78,7 @@ class HudRoleListPanelPatch
     static void ShowBG()
     {
         RolelistBackgroundManager.Show();
+        GraveyardBackgroundManager.UpdateAnchors();
     }
 
     [HarmonyPatch("Hide")]
@@ -85,6 +86,7 @@ class HudRoleListPanelPatch
     static void HideBG()
     {
         RolelistBackgroundManager.Hide();
+        GraveyardBackgroundManager.UpdateAnchors();
     }
 }
 
@@ -95,6 +97,7 @@ class HudGraveyardPanelPatch
     [HarmonyPostfix]
     static void ShowBG()
     {
+        GraveyardBackgroundManager.UpdateAnchors();
         GraveyardBackgroundManager.Show();
     }
 
@@ -102,6 +105,7 @@ class HudGraveyardPanelPatch
     [HarmonyPostfix]
     static void HideBG()
     {
+        GraveyardBackgroundManager.UpdateAnchors();
         GraveyardBackgroundManager.Hide();
     }
 }

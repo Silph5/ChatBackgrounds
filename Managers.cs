@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using Server.Shared.Extensions;
 using System.Linq;
+using Services;
 
 namespace ChatBackgrounds;
 
@@ -359,9 +360,23 @@ class GraveyardBackgroundManager
     public static void Hide()
     {
         bgContainerObject.SetActive(false);
+
     }
     public static void Show()
     {
         bgContainerObject.SetActive(true);
+    }
+
+    public static void UpdateAnchors()
+    {
+        RectTransform rt = bgContainerObject.GetComponent<RectTransform>();
+        if (Service.Game.Interface.IsRoleListOpen.Data)
+        {
+            rt.anchoredPosition = new Vector2(325f, -114f);
+        }
+        else
+        {
+            rt.anchoredPosition = new Vector2(35f, -114f); 
+        }
     }
 }
