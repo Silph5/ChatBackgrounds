@@ -25,7 +25,9 @@ Once you launch the game, if everything works right, you should see a button whi
 
 This is where you can put any images you want to appear on the backgrounds of the panels. 
 
-<span style="color:red">Important: do not use overly large images for backgrounds, they will eat your RAM. I'd recommend no larger than 700-800px width or height. Anything higher is extremely unnecessary.</span> <sup><sub>Unity will also compress images with dimension that are both multiples of 4px, for extra optimisation</sub></sup>
+<span style="color:red">Important: do not use overly large images for backgrounds, they will eat your RAM. I'd recommend no larger than 700-800px width or height. Anything higher is extremely unnecessary.</span> 
+
+<sup><sub>Unity will also compress images with dimension that are both multiples of 4px, for extra optimisation</sub></sup>
 
 Then, access the mod's settings through the mod loader menu, and select the background you want to use from that folder (scroll to the bottom of the settings list for this). You may need to restart your game for the mod to recognise any new backgrounds you placed in the folder.
 
