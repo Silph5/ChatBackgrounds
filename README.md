@@ -24,6 +24,7 @@ Inside that folder, go to "SalemModLoader/Mods", and put the dll you just downlo
 Once you launch the game, if everything works right, you should see a button which says "mod actions" on the main menu after logging in. Click the one which says backgrounds, and it will open a folder on your computer (alternatively you can find this folder in SalemModLoader/ModFolders at any time after the mod is first launched)
 
 This is where you can put any images you want to appear on the backgrounds of the panels. 
+
 <span style="color:red">Important: do not use overly large images for backgrounds, they will eat your RAM. I'd recommend no larger than 700-800px width or height. Anything higher is extremely unnecessary.</span> <sup><sub>Unity will also compress images with dimension that are both multiples of 4px, for extra optimisation</sub></sup>
 
 Then, access the mod's settings through the mod loader menu, and select the background you want to use from that folder (scroll to the bottom of the settings list for this). You may need to restart your game for the mod to recognise any new backgrounds you placed in the folder.
