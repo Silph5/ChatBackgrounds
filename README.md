@@ -7,8 +7,6 @@
 This is a mod for Town Of Salem 2 that allows you to insert images into the backgrounds of the chatbox, chatlog, rolelist and graveyard. 
 <sup><sub>I may add more panels to this list in the future, but the mod's settings menu is already quite bloated. If someone does want me to make more panels customisable, i will do so gladly.</sub></sup>
 
-Here's an ingame screenshot:
-
 You can adjust a few settings for each background, including brightness, transparency and scaling pivot.
 
 ## Installation
