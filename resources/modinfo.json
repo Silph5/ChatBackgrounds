@@ -4,7 +4,7 @@
     "Authors": [
       "Silph5"
     ],
-    "Description": "Import images to personalise your chatbox with a background! This mod inserts an image of your choice into the chat panel, supporting PUT SUPPORTED FILES HERE",
+    "Description": "Allows you to add custom images to ingame ui panels such as the Chatbox, Rolelist and Graveyard panels",
     "Version": "1.0.0",
     "RequiredMods": [],
     "Settings": {}
