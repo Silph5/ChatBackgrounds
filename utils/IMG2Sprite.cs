@@ -38,8 +38,10 @@ public class IMG2Sprite : MonoBehaviour
             FileData = File.ReadAllBytes(FilePath);
             Tex2D = new Texture2D(2, 2);         
             if (Tex2D.LoadImage(FileData))
-            
-                Tex2D.Compress(false);
+                if ((Tex2D.width % 4) == 0 && (Tex2D.height % 4) == 0)
+                {
+                    Tex2D.Compress(false);
+                }
 
                 return Tex2D;                 
         }
