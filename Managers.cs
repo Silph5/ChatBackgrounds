@@ -376,7 +376,7 @@ class GraveyardBackgroundManager
         }
         else
         {
-            rt.anchoredPosition = new Vector2(35f, -114f); 
+            rt.anchoredPosition = new Vector2(25f, -114f); 
         }
     }
 }
