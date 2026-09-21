@@ -298,7 +298,7 @@ public class Settings
               DefaultValue = 20,
               MinValue = 0,
               MaxValue = 100,
-              OnChanged = _ => GraveyardBackgroundManager.UpdateImageColour()
+              OnChanged = _ => GraveyardBackgroundManager.UpdateImageColour()            
             };
             return GraveyardBackgroundDarkness;
         }

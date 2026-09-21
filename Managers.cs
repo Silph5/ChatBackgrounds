@@ -144,7 +144,6 @@ class ChatBackgroundManager
 
         bgContainerObject = Object.Instantiate(panelBackingObject, upperChatContents);
         bgContainerObject.name = "ChatBGContainer";
-        bgContainerObject.transform.SetAsFirstSibling();
 
         bgContainerObject.AddComponent<RectMask2D>();   //container object is needed to mask the background when it scales beyond the size of a panel, 
 
@@ -243,6 +242,11 @@ class ChatBackgroundManager
         
         var fitter = bgImage.GetComponent<AspectRatioFitter>();
         fitter.aspectRatio = newSprite.rect.width / newSprite.rect.height;
+    }
+
+    public static void setBgLayer()
+    {
+        bgContainerObject.transform.SetAsFirstSibling();
     }
 }
 

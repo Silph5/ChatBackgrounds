@@ -51,6 +51,20 @@ class CanvasManagerPatch
     }
 }
 
+[HarmonyPatch(typeof(ChatInputController))]
+//need to wait until fancy ui is done fancying before messing with the chat panel's hierarchy,
+//otherwise fancyui recolour applies to the wrong object
+//chatinputcontroller seems to work for this
+class FancyUICompatibilityPatch
+{
+    [HarmonyPatch("Start")]
+    [HarmonyPostfix]
+    static void doLayering() 
+    {
+        ChatBackgroundManager.setBgLayer();
+    }
+}
+
 [HarmonyPatch(typeof(PooledChatViewSwitcher))]
 class ViewSwitcherPatch
 {
